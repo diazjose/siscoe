@@ -1,0 +1,137 @@
+
+@font-face {
+    font-family: Antenna;
+    font-style: normal;
+    src: url('../font-gob/antenna/ANTENNACOND-BOLD.OTF') 
+}
+
+@font-face {
+    font-family: Antenna-regular;
+    font-style: normal;
+    src: url('../font-gob/antenna/ANTENNACOND-REGULAR.TTF') 
+}
+
+@font-face {
+    font-family: Antenna-bold;
+    font-style: normal;
+    src: url('../font-gob/antenna/ANTENNACOND-BOLD.OTF') 
+}
+
+@font-face {
+    font-family: Antenna-body;
+    font-style: normal;
+    src: url('../font-gob/antenna/ford-antenna-italic-588ce13ac85a5.otf') 
+}
+
+@font-face {
+    font-family: Changa-regular;
+    font-style: normal;
+    src: url('../font-gob/ChangaOne/ChangaOne-Regular.ttf') 
+}
+
+@font-face {
+    font-family: Changa-italic;
+    font-style: normal;
+    src: url('../font-gob/ChangaOne/ChangaOne-Italic.ttf') 
+}
+
+@font-face {
+    font-family: Gotham-bold;
+    font-style: normal;
+    src: url('../font-gob/Gotham-Font/Gotham-Bold.otf') 
+}
+
+nav{
+  font-family: Gotham-bold;
+}
+
+/*
+body {
+  /*
+  background-color: #FFE7E2;
+  
+  background-color: #FFFFFF;
+  font-family: Antenna-regular;
+}*/
+header {
+  /*
+  background-color: #BF1102;
+  */
+  background-color: #ea1b36;
+  color: white;
+  /*margin-top:5px;*/
+  margin-right: 10px;
+  margin-left: 10px; 
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /*background-color: #17a2b8;*/
+  background-color: #BF1102;
+  font-family: Antenna-regular;
+  height: 100vh;
+}
+
+#logo{
+  width: 40vw;
+}
+
+.title{
+  font-family: Gotham-bold;
+}
+
+.btn-red {
+  background-color: #ea1b36;
+  color: white;
+  border-radius: 15px
+}
+
+.btn-red:hover {
+  background-color: #ffffff;
+  border: solid 2px #ea1b36; 
+  color: #040404;
+}
+
+.border-red{
+  border: solid 2px #ea1b36;
+  border-radius: 12px;
+}
+
+.boton:hover {
+  margin-top: 2px;
+  background-color: #ff5279;
+  
+  border: solid 2px;
+  /*
+  border-radius: 15px;
+  border-color: #585454;
+  */
+  border-color: #ffffff;
+  cursor: pointer;
+  color: #585454;
+}
+
+
+
+#login .container #login-row #login-column #login-box {
+  margin-top: 120px;
+  max-width: 600px;
+  height: 320px;
+  border: 1px solid #9C9C9C;
+  /*background-color: #EAEAEA;*/
+  background-color: #9c9a9a;
+  border-radius: 15px;
+}
+#login .container #login-row #login-column #login-box #login-form {
+  padding: 20px;
+}
+#login .container #login-row #login-column #login-box #login-form #register-link {
+  margin-top: -85px;
+}
+
+@media (max-width: 600px) {
+  #logo{
+    width: 300px;
+  }
+}  
