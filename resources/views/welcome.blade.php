@@ -20,7 +20,7 @@
         </div>
         <div id="login">
                 <div class="container">
-                    <h3 class="text-center text-white title">Sistema de Administración del COE</h3>
+                    <h3 class="text-center text-white title">Sistema de Voluntariados</h3>
                 
                     <div id="login-row" class="row justify-content-center align-items-center">
                         <div id="login-column" class="col-md-6">

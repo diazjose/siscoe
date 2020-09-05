@@ -12,4 +12,12 @@ class Persona extends Model
         'nombre', 'apellidos', 'dni', 'email', 'direccion', 'telefono','fechaIngreso', 'situacionLaboral',
     ];
 
+    public function depende(){
+    	return $this->hasMany('App\Dependiente'); 
+    }
+
+    public function user(){
+    	return $this->hasOne('App\User'); 
+    }
+
 }

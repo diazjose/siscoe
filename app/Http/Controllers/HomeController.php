@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Persona;
 
@@ -24,7 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $personas = Persona::all();
-        return view('personal.index', ['personas' => $personas]);
+        $role = Auth::user()->role;
+        if ($role == 'ADMIN') {
+            $personas = Persona::all();
+            return view('personal.index', ['personas' => $personas]);    
+        }else{
+            return redirect()->route('personal.viewAuth', [Auth::user()->persona->id]);
+        }
+        
     }
 }

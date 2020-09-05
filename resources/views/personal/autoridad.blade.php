@@ -4,11 +4,12 @@
 <div class="container">
     <div class="justify-content-center">
         <div class="text-center my-3">
-            <h2 class="title display-3">Administrar Personal</h2>
+            <h2 class="title display-3">Administrar Autoridades</h2>
         </div><br>
         <a href="{{route('personal.register')}}" class="btn btn-success title"><i class="fas fa-user-plus"></i> Agregar Personal</a>
         <br>
         <hr class="border-red">
+        <div class="container">
             @if(session('message'))
             <div class="alert alert-{{ session('status') }}">
                 <strong>{{ session('message') }}</strong>   
@@ -19,15 +20,15 @@
                 <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>DNI</th>
-                            <th>Fecha N.</th>
+                            <th>Nombre Completo</th>
+                            <th>N° DNI</th>
+                            <th>Fecha Nac.</th>
                             <th>Correo</th>
                             <th>Teléfono</th>
                             <th>Ingreso</th>
-                            <th>Situación Lab.</th>
+                            <th>Situación Laboral</th>
                             <th>Organigrama</th>
-                            <th>Ver</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,21 +43,21 @@
                             <td>{{$per->situacionLaboral}}</td>
                             <td>{{$per->cargo}}</td>
                             <td>
-                                <a href="{{route('personal.viewAuth', [$per->id])}}" class="btn btn-outline-primary" title="Ver Personal" ><i class="far fa-eye"></i></a>
+                                <a href="#" class="btn btn-outline-primary" title="Ver Personal" ><i class="far fa-eye"></i></a>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>Nombre</th>
+                            <th>Nombre Completo</th>
                             <th>N° DNI</th>
                             <th>Fecha Nac.</th>
                             <th>Correo</th>
                             <th>Teléfono</th>
-                            <th>Ingreso</th>
+                            <th>Ingreso COE</th>
                             <th>Situación Laboral</th>
-                            <th>Organigrama</th>
+                            <th>Cargo</th>
                             <th>Acciones</th>
                         </tr>
                     </tfoot>
@@ -67,7 +68,7 @@
                 <h4 class="text-danger my-5"><strong>NO SE REGISTRO NINGUN PERSONAL...</strong></h4>
             </div>    
             @endif
-        
+        </div>
     </div>
 </div>
 @endsection

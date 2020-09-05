@@ -88,6 +88,10 @@ header {
   background-color: #9c9a9a;
 }
 
+.fondo-grey-c{
+  background-color: #c4c0c0;
+}
+
 .btn-red {
   background-color: #ea1b36;
   color: white;
@@ -99,3 +103,14 @@ header {
   border: solid 2px #ea1b36; 
   color: #040404;
 }
+
+
+@media (max-width: 600px) {
+  /*#logo{
+    width: 300px;
+  }*/
+  h2 {
+    size: 1.0em;
+  }
+
+}  
