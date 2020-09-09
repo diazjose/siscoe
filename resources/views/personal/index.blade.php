@@ -21,12 +21,11 @@
                         <tr>
                             <th>Nombre</th>
                             <th>DNI</th>
-                            <th>Fecha N.</th>
                             <th>Correo</th>
                             <th>Teléfono</th>
-                            <th>Ingreso</th>
                             <th>Situación Lab.</th>
-                            <th>Organigrama</th>
+                            <th>Puesto</th>
+                            <th>Depende</th>
                             <th>Ver</th>
                         </tr>
                     </thead>
@@ -35,12 +34,19 @@
                         <tr>
                             <td>{{$per->apellidos}} {{$per->nombre}}</td>
                             <td>{{$per->dni}}</td>
-                            <td>{{date('d/m/Y', strtotime($per->fechaNac))}}</td>
                             <td>{{$per->email}}</td>
                             <td>{{$per->telefono}}</td>
-                            <td>{{date('d/m/Y', strtotime($per->fechaIngreso))}}</td>
                             <td>{{$per->situacionLaboral}}</td>
                             <td>{{$per->cargo}}</td>
+                            @if(count($per->depende) > 0)
+                                @foreach($per->depende as $dep)                                    
+                                    @if($dep->persona_id == $per->id)
+                                    <td>{{$dep->coordinador->apellidos}} {{$dep->coordinador->nombre}}</td>
+                                    @endif
+                                @endforeach                            
+                            @else
+                            <td>NADIE</td>
+                            @endif
                             <td>
                                 <a href="{{route('personal.viewAuth', [$per->id])}}" class="btn btn-outline-primary" title="Ver Personal" ><i class="far fa-eye"></i></a>
                             </td>
@@ -50,14 +56,13 @@
                     <tfoot>
                         <tr>
                             <th>Nombre</th>
-                            <th>N° DNI</th>
-                            <th>Fecha Nac.</th>
+                            <th>DNI</th>
                             <th>Correo</th>
                             <th>Teléfono</th>
-                            <th>Ingreso</th>
-                            <th>Situación Laboral</th>
-                            <th>Organigrama</th>
-                            <th>Acciones</th>
+                            <th>Situación Lab.</th>
+                            <th>Puesto</th>
+                            <th>Depende</th>
+                            <th>Ver</th>
                         </tr>
                     </tfoot>
                 </table>

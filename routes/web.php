@@ -26,6 +26,7 @@ Route::get('/personal/designado', 'PersonalController@listAuth')->name('personal
 Route::get('/personal/ver/{id}', 'PersonalController@viewAuth')->name('personal.viewAuth');
 Route::get('/personal/actualizar/{id}', 'PersonalController@edit')->name('personal.edit');
 Route::post('/personal/update', 'PersonalController@update')->name('personal.update');
+Route::post('/personal/vehiculo', 'PersonalController@vehiculo')->name('personal.vehiculo');
 
 /* USUARIOS */
 Route::get('/usuarios', 'UsuarioController@index')->name('usuario.index');

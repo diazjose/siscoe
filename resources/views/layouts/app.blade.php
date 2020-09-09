@@ -57,9 +57,10 @@
                                 <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Personal') }}</a>
                             </li>
                             @if(Auth::user()->role == 'ADMIN')
+                            <!--
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="{{ route('personal.listAuth') }}">{{ __('Coordinador') }}</a>
-                            </li>
+                            </li>-->
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="{{ route('usuario.index') }}">{{ __('Usuarios') }}</a>
                             </li>

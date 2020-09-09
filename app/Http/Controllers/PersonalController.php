@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Persona;
 use App\Dependiente;
+use App\Vehiculo;
 
 
 class PersonalController extends Controller
@@ -20,19 +21,18 @@ class PersonalController extends Controller
     }
 
     public function create(Request $request){
-
-    	$persona = new Persona;
+        $persona = new Persona;
 
     	$validate = $this->validate($request, [
                 'nombre' => ['required', 'string', 'max:255'],
 	            'apellidos' => ['required', 'string', 'max:255'],
 	            'dni' => ['required', 'string', 'max:255', 'unique:personas'],
-	            'fechaNac' => ['required', 'date', 'max:255'],
+	            //'fechaNac' => ['required', 'date', 'max:255'],
 	            'email' => ['required', 'email', 'unique:personas'],
 	            'direccion' => ['required', 'string', 'max:255'],
                 'zona' => ['required', 'string', 'max:255'],
 	            'telefono' => ['required', 'string', 'max:255'],
-	            'fechaIngreso' => ['required', 'date', 'max:255'],
+	            //'fechaIngreso' => ['required', 'date', 'max:255'],
 	            'situacionLaboral' => ['required', 'string', 'max:255'],
 	            'cargo' => ['required', 'string', 'max:50'],
             ],
@@ -42,16 +42,21 @@ class PersonalController extends Controller
             ]);
 
 
+
     	$persona->nombre = strtoupper($request->input('nombre'));
     	$persona->apellidos = strtoupper($request->input('apellidos'));
 		$persona->dni = $request->input('dni');
-		$persona->fechaNac = $request->input('fechaNac');
-    	$persona->email = $request->input('email');
+		if (!empty($request->input('fechaNac'))) {
+            $persona->fechaNac = $request->input('fechaNac');
+        }
+        $persona->email = $request->input('email');
     	$persona->direccion = strtoupper($request->input('direccion'));
     	$persona->zona = strtoupper($request->input('zona'));
         $persona->telefono = $request->input('telefono');
-		$persona->fechaIngreso = $request->input('fechaIngreso');
-		$persona->situacionLaboral = $request->input('situacionLaboral');
+		if (!empty($request->input('fechaIngreso'))) {
+            $persona->fechaIngreso = $request->input('fechaIngreso');
+        }
+        $persona->situacionLaboral = $request->input('situacionLaboral');
     	$persona->cargo = strtoupper($request->input('cargo'));
     	
 		$persona->save();
@@ -63,10 +68,20 @@ class PersonalController extends Controller
 
             $dep->save();
         }
-
-
-    	return redirect()->route('home')
+        /*
+        if (!empty($request->input('vehiculo'))) {
+            $vehi = new Vehiculo();
+            $vehi->persona_id = $persona->id;
+            $vehi->tipo = $request->input('vehiculo');
+            $vehi->descripcion = strtoupper($request->input('descripcion'));
+            $vehi->dominio = $request->input('dominio');
+            $vehi->save();
+        }
+        return redirect()->route('home')
                          ->with(['message' => 'Persona cargada correctamente', 'status' => 'success']);
+    	*/
+        return redirect()->route('personal.viewAuth', [$persona->id]);
+                         //->with(['message' => 'Persona cargada correctamente', 'status' => 'success']);
 
     }
 
@@ -153,6 +168,18 @@ class PersonalController extends Controller
         //die();
         return view('personal.viewAuth1', ['auth' => $auth, 'dependiente' => $personas]);
     }
+
+    public function vehiculo(Request $request){
+        $vehi = new Vehiculo();
+        $vehi->persona_id = $request->input('id');
+        $vehi->tipo = $request->input('vehiculo');
+        $vehi->descripcion = strtoupper($request->input('descripcion'));
+        $vehi->dominio = $request->input('dominio');
+        $vehi->save();
+
+        return redirect()->route('personal.viewAuth', [$vehi->persona_id])
+                         ->with(['message' => 'Vehiculo cargado correctamente', 'status' => 'success']);   
+    }
 }
 
 
@@ -215,5 +242,31 @@ updated_at datetime,
 CONSTRAINT pk_trabajo PRIMARY KEY(id),
 CONSTRAINT fk_trabajo_persona FOREIGN KEY(parsona_id) REFERENCES personas(id)
 )ENGINE=InnoDB;
+
+create table vehiculos(
+id int(255) auto_increment not null,
+persona_id int(255),
+tipo varchar(100),
+descripcion varchar(255),
+dominio varchar(150),
+estado varchar(100),
+created_at datetime,
+updated_at datetime,
+CONSTRAINT pk_vehiculos PRIMARY KEY(id),
+CONSTRAINT fk_vehiculos_persona FOREIGN KEY(persona_id) REFERENCES personas(id)
+)ENGINE=InnoDB;
+
+create table puestos(
+id int(255) auto_increment not null,
+denominacion varchar(100),
+direccion varchar(255),
+estado varchar(50),
+latitud varchar(100),
+longitud varchar(100),
+created_at datetime,
+updated_at datetime,
+CONSTRAINT pk_puestos PRIMARY KEY(id)
+)ENGINE=InnoDB;
+
 
 */

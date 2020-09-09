@@ -1,4 +1,5 @@
 @csrf
+                        <h4 class="title">Datos Personales</h4><hr>
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="nombre" class="title">{{ __('Nombre') }}</label>
@@ -32,7 +33,7 @@
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="fechaNac" class="title">{{ __('Fecha de Nac.') }}</label>
-                                <input id="fechaNac" type="date" class="form-control @error('fechaNac') is-invalid @enderror" name="fechaNac" value="@if(isset($persona)){{$persona->fechaNac}}@endif" required autocomplete="fechaNac">
+                                <input id="fechaNac" type="date" class="form-control @error('fechaNac') is-invalid @enderror" name="fechaNac" value="@if(isset($persona)){{$persona->fechaNac}}@endif" autocomplete="fechaNac">
                                 @error('fechaNac')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -53,7 +54,7 @@
                             </div>                   
                             <div class="form-group col-md-2">
                                 <label for="telefono" class="title">{{ __('Teléfono') }}</label>
-                                <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="@if(isset($persona)){{$persona->telefono}}@endif" required autocomplete="telefono">
+                                <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="@if(isset($persona)){{$persona->telefono}}@endif"  autocomplete="telefono">
                                 @error('telefono')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -80,11 +81,11 @@
                                 </select>
                             </div>
                         </div>
-                        
+                        <hr><h4 class="title">Datos Laborales</h4><hr>
                         <div class="row">    
                             <div class="form-group col-md-2">
                                 <label for="fechaIngreso" class="title">{{ __('Fecha de Ingreso') }}</label>
-                                <input id="fechaIngreso" type="date" class="form-control @error('fechaIngreso') is-invalid @enderror" name="fechaIngreso" value="@if(isset($persona)){{$persona->fechaIngreso}}@endif" required autocomplete="fechaIngreso">
+                                <input id="fechaIngreso" type="date" class="form-control @error('fechaIngreso') is-invalid @enderror" name="fechaIngreso" value="@if(isset($persona)){{$persona->fechaIngreso}}@endif"  autocomplete="fechaIngreso">
                                 @error('fechaIngreso')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

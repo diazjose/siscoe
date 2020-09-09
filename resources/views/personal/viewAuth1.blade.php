@@ -17,7 +17,7 @@
                 <h3 class="title my-3 mx-3 p-2">Datos Personales</h3> 
                 <hr class="border-white p-2 mx-3">
                 <h5 class="mx-3"> 
-                    <div class="row">   
+                    <div class="row my-2">   
                         <div class="form-group col-md-3">
                             <label for="nombre" class="title">{{ __('Nombre') }}</label><br>
                             {{$auth->apellidos}} {{$auth->nombre}}      
@@ -35,7 +35,7 @@
                             {{$auth->telefono}}
                         </div>
                     </div>    
-                    <div class="row">
+                    <div class="row my-2">
                         <div class="form-group col-md-3">
                             <label for="nombre" class="title">{{ __('Correo Electrónico') }}</label><br>
                             {{$auth->email}}     
@@ -53,8 +53,21 @@
                             {{$auth->situacionLaboral}}
                         </div>
                     </div>
-                    @if(!empty($auth->user))              
+                                  
                     <div class="row">
+                        <div class="form-group col-md-3" >
+                            <label class="title">Depende de</label><br>
+                            @if(count($auth->depende)>0)
+                                @foreach($auth->depende as $dep)
+                                    @if($dep->persona_id == $auth->id)
+                                    {{$dep->coordinador->apellidos}} {{$dep->coordinador->nombre}}
+                                    @endif
+                                @endforeach    
+                            @else
+                            NADIE
+                            @endif
+                        </div>  
+                        @if(!empty($auth->user))
                         <div class="form-group col-md-3">
                             <label class="title">{{ __('Tipo de Usuario') }}</label><br>
                             @if($auth->user->role == 'ADMIN')
@@ -63,14 +76,39 @@
                             REFERENTE
                             @endif
                         </div>
+                        @endif
+                        <div class="form-group col-md-6" >
+                            <label class="title">Vehiculos de Translado</label><br>
+                            @if(count($auth->vehiculos)>0)
+                                <table class="table table-responsive">
+                                    <thead>
+                                        <th>Tipo</th>
+                                        <th>Denominación</th>
+                                        <th>Dominio</th>
+                                    </thead>
+                                    <tbody>    
+                                    @foreach($auth->vehiculos as $ve)
+                                        <tr>
+                                            <td>{{$ve->tipo}}</td>
+                                            <td>{{$ve->descripcion}}</td>
+                                            <td>{{$ve->dominio}}</td>
+                                        </tr>    
+                                    @endforeach
+                                    </tbody>    
+                                </table>    
+                            @else
+                            NINGUNO
+                            @endif
+                        </div>
                     </div>    
-                    @endif                    
+                                        
                 </h5>
                 @if(Auth::user()->role == 'ADMIN')
-                <a href="{{route('personal.edit', [$auth->id])}}" class="btn btn-success btn-lg title">Editar Persona</a>
-                    @if(empty($auth->user))              
-                    <a href="#" class="btn btn-primary btn-lg title" data-toggle="modal" data-target="#userModal">Crear Usuario</a>  
+                <a href="{{route('personal.edit', [$auth->id])}}" class="btn btn-success btn-lg title"><i class="fas fa-id-card"></i> Editar Persona</a>
+                    @if(empty($auth->user) AND $auth->cargo != 'PERSONAL VOLUNTARIO')              
+                    <a href="#" class="btn btn-primary btn-lg title" data-toggle="modal" data-target="#userModal"><i class="fas fa-user"></i> Crear Usuario</a>  
                     @endif
+                    <a href="#" class="btn btn-primary btn-lg title" data-toggle="modal" data-target="#vehiModal"><i class="fas fa-car"></i> Agregar Vehiculo</a>
                 @endif
             </div>    
             @if($auth->cargo != 'PERSONAL VOLUNTARIO')
@@ -87,6 +125,7 @@
                                 <th>DNI</th>
                                 <th>Correo</th>
                                 <th>Teléfono</th>
+                                <th>Zona de Domicilio</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -99,6 +138,7 @@
                                 <td>{{$dep->persona->dni}}</td>
                                 <td>{{$dep->persona->email}}</td>
                                 <td>{{$dep->persona->telefono}}</td>
+                                <td>{{$dep->persona->zona}}</td>
                                 <td>
                                     <a href="#" class="btn btn-outline-primary" title="Ver Personal" ><i class="far fa-eye"></i></a>
                                 </td>
@@ -152,6 +192,49 @@
   </div>
 </div>
 
+<div class="modal fade" id="vehiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title title" id="exampleModalCenterTitle">Agregar Vehiculo</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form method="POST" action="{{route('personal.vehiculo')}}">
+                @csrf
+                <input type="hidden" name="id" value="{{$auth->id}}">
+                <div class="form-group">
+                    <label for="vehiculo" class="title">{{ __('Tipo de Vehículo') }}</label>
+                    <select name="vehiculo" class="form-control" id="vehiculo"> 
+                        <option selected disabled>--Elegir Opción--</option>
+                        <option value="BICICLETA">BICICLETA</option>
+                        <option value="MOTOCICLETA">MOTOCICLETA</option>
+                        <option value="AUTOMOVIL">AUTOMOVIL</option>
+                        <option value="CAMIONETA">CAMIONETA</option>
+                        <option value="CAMION">CAMION</option>
+                        <option value="TRAFIC">TRAFIC</option>      
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion" class="title">{{ __('Descripción') }}</label>
+                    <input id="descripcion" type="text" class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" autocomplete="descripcion" autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="dominio" class="title">{{ __('Dominio') }}</label>
+                    <input id="dominio" type="text" class="form-control @error('descripcion') is-invalid @enderror" name="dominio" autocomplete="descripcion" autofocus>
+                </div>
+                
+                <hr>
+                <div class="form-group mx-2">
+                    <button type="submit" class="btn btn-primary title">Agregar Vehiculo</button>
+                </div>
+            </form>        
+      </div>      
+    </div>
+  </div>
+</div>
 
 @endsection
 @section('script')

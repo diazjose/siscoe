@@ -32,7 +32,13 @@
                             <td>{{$i}}</td>
                             <td>{{$user->persona->nombre}} {{$user->persona->apellidos}}</td>    
                             <td>{{$user->email}}</td>
-                            <td>{{$user->role}}</td>
+                            <td>
+                                @if($user->role == 'ADMIN')
+                                ADMINISTRADOR
+                                @else
+                                REFERENTE
+                                @endif
+                            </td>
                             <td>
                                 <a href="#" class="btn btn-outline-success" title="Editar Usuario" data-toggle="modal" data-target="#userModal" ><i class="fas fa-user-edit" onclick="edit({{$user->id}}, '{{$user->role}}')"></i></a>
                                 <a href="{{route('usuario.destroy', [$user->id])}}" class="btn btn-outline-danger" title="Ver Personal" ><i class="fas fa-user-minus"></i></a>
