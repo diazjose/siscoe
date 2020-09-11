@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Persona;
 use App\Dependiente;
 use App\Vehiculo;
+use App\Puesto;
+use App\Trabajo;
 
 
 class PersonalController extends Controller
@@ -28,7 +30,7 @@ class PersonalController extends Controller
 	            'apellidos' => ['required', 'string', 'max:255'],
 	            'dni' => ['required', 'string', 'max:255', 'unique:personas'],
 	            //'fechaNac' => ['required', 'date', 'max:255'],
-	            'email' => ['required', 'email', 'unique:personas'],
+	            //'email' => ['required', 'email', 'unique:personas'],
 	            'direccion' => ['required', 'string', 'max:255'],
                 'zona' => ['required', 'string', 'max:255'],
 	            'telefono' => ['required', 'string', 'max:255'],
@@ -37,7 +39,7 @@ class PersonalController extends Controller
 	            'cargo' => ['required', 'string', 'max:50'],
             ],
             [
-            	'email.unique' => 'Este correo ya existe en la Base de Datos para otro Personal',
+            	//'email.unique' => 'Este correo ya existe en la Base de Datos para otro Personal',
             	'dni.unique' => 'Este N° de DNI ya existe en la Base de Datos para otro Personal',
             ]);
 
@@ -49,7 +51,7 @@ class PersonalController extends Controller
 		if (!empty($request->input('fechaNac'))) {
             $persona->fechaNac = $request->input('fechaNac');
         }
-        $persona->email = $request->input('email');
+        //$persona->email = $request->input('email');
     	$persona->direccion = strtoupper($request->input('direccion'));
     	$persona->zona = strtoupper($request->input('zona'));
         $persona->telefono = $request->input('telefono');
@@ -95,7 +97,7 @@ class PersonalController extends Controller
                 'apellidos' => ['required', 'string', 'max:255'],
                 'dni' => ['required', 'string', 'max:8', 'unique:personas,dni,'.$id],
                 'fechaNac' => ['required', 'date', 'max:255'],
-                'email' => ['required', 'email', 'unique:personas,email,'.$id],
+                //'email' => ['required', 'email', 'unique:personas,email,'.$id],
                 'direccion' => ['required', 'string', 'max:255'],
                 'zona' => ['required', 'string', 'max:255'],
                 'telefono' => ['required', 'string', 'max:255'],
@@ -104,7 +106,7 @@ class PersonalController extends Controller
                 'cargo' => ['required', 'string', 'max:50'],
             ],
             [
-                'email.unique' => 'Este correo ya existe en la Base de Datos para otro Personal',
+                //'email.unique' => 'Este correo ya existe en la Base de Datos para otro Personal',
                 'dni.unique' => 'Este N° de DNI ya existe en la Base de Datos para otro Personal',
             ]);
 
@@ -112,7 +114,7 @@ class PersonalController extends Controller
         $persona->apellidos = strtoupper($request->input('apellidos'));
         $persona->dni = $request->input('dni');
         $persona->fechaNac = $request->input('fechaNac');
-        $persona->email = $request->input('email');
+        //$persona->email = $request->input('email');
         $persona->direccion = strtoupper($request->input('direccion'));
         $persona->zona = strtoupper($request->input('zona'));
         $persona->telefono = $request->input('telefono');
@@ -164,9 +166,8 @@ class PersonalController extends Controller
     public function viewAuth($id){
         $auth = Persona::where('id',$id)->first();
         $personas = Dependiente::where('coordinador_id',$id)->get();
-        //var_dump($personas);
-        //die();
-        return view('personal.viewAuth1', ['auth' => $auth, 'dependiente' => $personas]);
+        $lugares = Puesto::all();
+        return view('personal.viewAuth1', ['auth' => $auth, 'dependiente' => $personas, 'lugares' => $lugares]);
     }
 
     public function vehiculo(Request $request){
@@ -179,6 +180,35 @@ class PersonalController extends Controller
 
         return redirect()->route('personal.viewAuth', [$vehi->persona_id])
                          ->with(['message' => 'Vehiculo cargado correctamente', 'status' => 'success']);   
+    }
+
+    public function asignarTarea(Request $request){
+        $validate = $this->validate($request, [
+                'persona_id' => ['required', 'integer', 'max:255'],
+                'lugar' => ['required', 'integer', 'max:255'],
+                'horaEntrada' => ['required', 'string', 'max:255'],
+                'horaEntrada' => ['required', 'string', 'max:255'],
+                'tarea' => ['required', 'string', 'max:255'],
+            ],
+            [
+                'denominacion.unique' => 'Esta denominacion ya esta registrada',
+                'direccion.unique' => 'Esta direccion ya esta registrada',
+            ]);
+
+        $tarea = new Trabajo();
+
+        $tarea->persona_id = $request->input('persona_id');
+        $tarea->puesto_id = $request->input('lugar');
+        $tarea->fecha = date('Y-m-d');
+        $tarea->persona_id = $request->input('persona_id');
+        $tarea->horaEntrada = $request->input('horaEntrada');
+        $tarea->horaSalida = $request->input('horaSalida');
+        $tarea->tarea = $request->input('tarea');
+
+        $tarea->save();
+
+        return redirect()->route('personal.viewAuth', [$request->input('id')])
+                         ->with(['message' => 'Tarea asignada correctamente', 'status' => 'success']);   
     }
 }
 
@@ -231,16 +261,17 @@ CONSTRAINT fk_dependiente_persona FOREIGN KEY(persona_id) REFERENCES personas(id
 
 create table trabajo(
 id int(255) auto_increment not null,
-parsona_id int(255),
+persona_id int(255),
+puesto_id int(255),
 fecha date,
 horaEntrada time,
-hora_Salida time,
-direccion int(255),
+horaSalida time,
 tarea varchar(255),
 created_at datetime,
 updated_at datetime,
 CONSTRAINT pk_trabajo PRIMARY KEY(id),
-CONSTRAINT fk_trabajo_persona FOREIGN KEY(parsona_id) REFERENCES personas(id)
+CONSTRAINT fk_trabajo_persona FOREIGN KEY(persona_id) REFERENCES personas(id),
+CONSTRAINT fk_trabajo_puesto FOREIGN KEY(puesto_id) REFERENCES puestos(id)
 )ENGINE=InnoDB;
 
 create table vehiculos(

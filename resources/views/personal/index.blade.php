@@ -6,7 +6,7 @@
         <div class="text-center my-3">
             <h2 class="title display-3">Administrar Personal</h2>
         </div><br>
-        <a href="{{route('personal.register')}}" class="btn btn-success title"><i class="fas fa-user-plus"></i> Agregar Personal</a>
+        <a href="{{route('personal.register')}}" class="btn btn-primary title"><i class="fas fa-user-plus"></i> Agregar Personal</a>
         <br>
         <hr class="border-red">
             @if(session('message'))
@@ -21,7 +21,6 @@
                         <tr>
                             <th>Nombre</th>
                             <th>DNI</th>
-                            <th>Correo</th>
                             <th>Teléfono</th>
                             <th>Situación Lab.</th>
                             <th>Puesto</th>
@@ -34,7 +33,6 @@
                         <tr>
                             <td>{{$per->apellidos}} {{$per->nombre}}</td>
                             <td>{{$per->dni}}</td>
-                            <td>{{$per->email}}</td>
                             <td>{{$per->telefono}}</td>
                             <td>{{$per->situacionLaboral}}</td>
                             <td>{{$per->cargo}}</td>
@@ -57,7 +55,6 @@
                         <tr>
                             <th>Nombre</th>
                             <th>DNI</th>
-                            <th>Correo</th>
                             <th>Teléfono</th>
                             <th>Situación Lab.</th>
                             <th>Puesto</th>

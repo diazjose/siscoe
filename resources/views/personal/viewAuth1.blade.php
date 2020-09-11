@@ -122,10 +122,10 @@
                             <tr>
                                 <th>#</th>
                                 <th>Nombre</th>
-                                <th>DNI</th>
-                                <th>Correo</th>
                                 <th>Teléfono</th>
+                                <th>Domicilio</th>
                                 <th>Zona de Domicilio</th>
+                                <th>Puesto</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -135,12 +135,27 @@
                             <tr>
                                 <td>{{$i}}</td>
                                 <td>{{$dep->persona->apellidos}} {{$dep->persona->nombre}}</td>
-                                <td>{{$dep->persona->dni}}</td>
-                                <td>{{$dep->persona->email}}</td>
                                 <td>{{$dep->persona->telefono}}</td>
+                                <td>{{$dep->persona->direccion}}</td>
                                 <td>{{$dep->persona->zona}}</td>
                                 <td>
-                                    <a href="#" class="btn btn-outline-primary" title="Ver Personal" ><i class="far fa-eye"></i></a>
+                                    @if($dep->persona->tarea) 
+                                    {{$dep->persona->tarea->lugar->denominacion}}<br>
+                                    Tarea: {{$dep->persona->tarea->tarea}}<br>
+                                    Horario: {{date('H:i', strtotime($dep->persona->tarea->horaEntrada))}} a {{date('H:i', strtotime($dep->persona->tarea->horaSalida))}}
+                                    @else
+                                    NINGUNO...
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($dep->persona->tarea)
+                                    <a href="#" class="btn btn-outline-primary disabled"  title="Agregar Tarea" ><i class="fas fa-clipboard-list"></i></a>
+                                    <a href="#" class="btn btn-outline-success" onclick="editTarea({{$dep->persona->id}},'{{$dep->persona->apellidos}}','{{$dep->persona->nombre}}','{{$dep->persona->tarea->lugar->id}}','{{$dep->persona->tarea->horaEntrada}}','{{$dep->persona->tarea->horaSalida}}','{{$dep->persona->tarea->tarea}}')" data-toggle="modal" data-target="#tareaModal" title="Editar Tarea" ><i class="far fa-edit"></i></a>
+                                    @else
+                                    <a href="#" class="btn btn-outline-primary" onclick="tarea({{$dep->persona->id}},'{{$dep->persona->apellidos}}','{{$dep->persona->nombre}}')" data-toggle="modal" data-target="#tareaModal" title="Agregar Tarea" ><i class="fas fa-clipboard-list"></i></a>
+                                    <a href="#" class="btn btn-outline-success disabled" title="Editar Tarea" ><i class="far fa-edit"></i></a>
+                                    @endif
+
                                 </td>
                             </tr>
                             @php($i++)
@@ -163,7 +178,7 @@
 <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header fondo-grey-c">
         <h4 class="modal-title title" id="exampleModalCenterTitle">Crear Usuario</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -195,7 +210,7 @@
 <div class="modal fade" id="vehiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header fondo-grey-c">
         <h4 class="modal-title title" id="exampleModalCenterTitle">Agregar Vehiculo</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -229,6 +244,60 @@
                 <hr>
                 <div class="form-group mx-2">
                     <button type="submit" class="btn btn-primary title">Agregar Vehiculo</button>
+                </div>
+            </form>        
+      </div>      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="tareaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header fondo-grey-c">
+        <h4 class="modal-title title" id="Title"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form method="POST" action="{{route('personal.asignarTarea')}}">
+                @csrf
+                <input type="hidden" name="id" value="{{$auth->id}}">
+                <input type="hidden" name="persona_id" id="persona_id" value="">
+                <div class="form-group">
+                    <label for="nombre" class="title">Asignar Tarea a:</label>
+                    <p id="nombre"></p>
+                </div>
+                <div class="form-group">
+                    <label for="estado" class="title">Puesto</label>
+                    <select class="custom-select" id="lugar" name="lugar" required>
+                        <option selected disabled value="">-- Elegir Puesto --</option>
+                        @foreach($lugares as $lu)
+                        <option value="{{$lu->id}}">{{$lu->denominacion}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="horaEntrada" class="title">{{ __('Hora de Entrada') }}</label>
+                    <input id="horaEntrada" type="time"  class="form-control @error('horaEntrada') is-invalid @enderror" name="horaEntrada" placeholder="00:00" autocomplete="horaEntrada" autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="horaSalida" class="title">{{ __('Hora de Salida') }}</label>
+                    <input id="horaSalida" type="time" class="form-control @error('horaSalida') is-invalid @enderror" name="horaSalida" autocomplete="horaSalida" placeholder="00:00" autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="tarea" class="title">Tarea Asignada</label>
+                    <select class="custom-select" id="tarea" name="tarea" required>
+                        <option selected disabled value="">-- Elegir Puesto --</option>
+                        <option value="Control">Control</option>
+                        <option value="Asistente">Asistente</option>
+                    </select>
+                </div>
+                
+                <hr>
+                <div class="form-group mx-2">
+                    <button type="submit" class="btn btn-primary title" id="boton"></button>
                 </div>
             </form>        
       </div>      

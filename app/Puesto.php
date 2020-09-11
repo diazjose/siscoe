@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Persona extends Model
+class Puesto extends Model
 {
-    protected $table = 'personas';
+    protected $table = 'puestos';
 
     protected $fillable = [
-        'nombre', 'apellidos', 'dni', 'email', 'direccion', 'telefono','fechaIngreso', 'situacionLaboral',
+        'denominacion', 'direccion', 'estado', 'latitud', 'longitud',
     ];
-
+    /*
     public function depende(){
     	return $this->hasMany('App\Dependiente'); 
     }
@@ -23,8 +23,5 @@ class Persona extends Model
     public function vehiculos(){
         return $this->hasMany('App\Vehiculo'); 
     }
-
-    public function tarea(){
-        return $this->hasOne('App\Trabajo')->where('fecha', date('Y-m-d'));   
-    }
+    */
 }

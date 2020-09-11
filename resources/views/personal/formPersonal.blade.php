@@ -43,6 +43,7 @@
                         </div>
 
                         <div class="row">
+                            <!--
                             <div class="form-group col-md-3">
                                 <label for="email" class="title">{{ __('Correo Electrónico') }}</label>
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="@if(isset($persona)){{$persona->email}}@endif" required autocomplete="email">
@@ -51,8 +52,9 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
-                            </div>                   
-                            <div class="form-group col-md-2">
+                            </div>
+                            -->                   
+                            <div class="form-group col-md-3">
                                 <label for="telefono" class="title">{{ __('Teléfono') }}</label>
                                 <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="@if(isset($persona)){{$persona->telefono}}@endif"  autocomplete="telefono">
                                 @error('telefono')
@@ -61,7 +63,7 @@
                                  </span>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-6">
                                 <label for="direccion" class="title">{{ __('Domicilio') }}</label>
                                 <input id="direccion" type="text" class="form-control @error('direccion') is-invalid @enderror" name="direccion" value="@if(isset($persona)){{$persona->direccion}}@endif" required autocomplete="direccion">
                                 @error('direccion')
@@ -70,7 +72,7 @@
                                 </span>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-3">
                                 <label for="zona" class="title">{{ __('Zona del Domicilio') }}</label>
                                 <select name="zona" id="zona" class="form-control" required>
                                     <option selected disabled>--Elegir Opción--</option>
