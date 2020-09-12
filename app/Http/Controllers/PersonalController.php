@@ -96,12 +96,12 @@ class PersonalController extends Controller
                 'nombre' => ['required', 'string', 'max:255'],
                 'apellidos' => ['required', 'string', 'max:255'],
                 'dni' => ['required', 'string', 'max:8', 'unique:personas,dni,'.$id],
-                'fechaNac' => ['required', 'date', 'max:255'],
+                //'fechaNac' => ['required', 'date', 'max:255'],
                 //'email' => ['required', 'email', 'unique:personas,email,'.$id],
                 'direccion' => ['required', 'string', 'max:255'],
                 'zona' => ['required', 'string', 'max:255'],
                 'telefono' => ['required', 'string', 'max:255'],
-                'fechaIngreso' => ['required', 'date', 'max:255'],
+                //'fechaIngreso' => ['required', 'date', 'max:255'],
                 'situacionLaboral' => ['required', 'string', 'max:255'],
                 'cargo' => ['required', 'string', 'max:50'],
             ],
@@ -166,7 +166,7 @@ class PersonalController extends Controller
     public function viewAuth($id){
         $auth = Persona::where('id',$id)->first();
         $personas = Dependiente::where('coordinador_id',$id)->get();
-        $lugares = Puesto::all();
+        $lugares = Puesto::where('estado', 1)->get();
         return view('personal.viewAuth1', ['auth' => $auth, 'dependiente' => $personas, 'lugares' => $lugares]);
     }
 

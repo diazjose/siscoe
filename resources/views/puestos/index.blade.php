@@ -42,7 +42,7 @@
                             <td>{{$pue->latitud}}</td>
                             <td>{{$pue->longitud}}</td>
                             <td>
-                                <a href="{{route('puesto.edit', [$pue->id])}}" class="btn btn-outline-primary" title="Ver Puesto" ><i class="far fa-edit"></i></a>
+                                <a href="{{route('puesto.view', [$pue->id])}}" class="btn btn-outline-primary" title="Ver Puesto" ><i class="far fa-eye"></i></a>
                             </td>
                         </tr>
                         @endforeach

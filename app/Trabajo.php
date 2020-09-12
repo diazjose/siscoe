@@ -15,4 +15,9 @@ class Trabajo extends Model
     public function lugar(){
         return $this->belongsTo('App\Puesto', 'puesto_id'); 
     }
+
+    public function persona(){
+        return $this->belongsTo('App\Persona', 'persona_id'); 
+    }
+
 }

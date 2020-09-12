@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Puesto;
+use App\Trabajo;
 
 class PuestosController extends Controller
 {
@@ -77,7 +78,15 @@ class PuestosController extends Controller
     	
 		$puesto->update();
 
-    	return redirect()->route('puesto.index')
+    	return redirect()->route('puesto.view', [$id])
                          ->with(['message' => 'Puesto actualizado correctamente', 'status' => 'success']);
+    }
+
+     public function view($id){
+        $puesto = Puesto::find($id);
+        $personas = Trabajo::where('puesto_id',$id)->where('fecha', date('Y-m-d'))->orderBy('horaEntrada', 'ASC')->get();
+        //$lugares = Puesto::all();
+        
+        return view('puestos.view', ['puesto' => $puesto, 'personas' => $personas]);
     }
 }

@@ -41,3 +41,4 @@ Route::get('/puesto/registrar', 'PuestosController@register')->name('puesto.regi
 Route::post('/puesto/register', 'PuestosController@create')->name('puesto.create');
 Route::get('/puesto/editar/{id}', 'PuestosController@edit')->name('puesto.edit');
 Route::post('/puesto/update', 'PuestosController@update')->name('puesto.update');
+Route::get('/puesto/ver/{id}', 'PuestosController@view')->name('puesto.view');
