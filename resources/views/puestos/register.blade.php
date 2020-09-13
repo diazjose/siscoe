@@ -11,7 +11,7 @@
                     <form method="POST" action="{{ route('puesto.create') }}">
                         @csrf
                         <div class="row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-5">
                                 <label for="denominacion" class="title">{{ __('Denominación') }}</label>
                                 <input id="denominacion" type="text" class="form-control @error('denominacion') is-invalid @enderror" name="denominacion" value="{{ old('denominacion') }}" required autocomplete="denominacion" autofocus>
                                 @error('denominacion')
@@ -20,7 +20,7 @@
                                 </span>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-5">
                                 <label for="direccion" class="title">{{ __('Dirección') }}</label>
                                 <input id="direccion" type="text" class="form-control @error('direccion') is-invalid @enderror" name="direccion" value="{{ old('direccion') }}" required autocomplete="direccion" autofocus>
                                 @error('direccion')
@@ -29,6 +29,17 @@
                                 </span>
                                 @enderror
                             </div>
+                            <div class="col-md-2 mb-2">
+                              <label for="zona" class="title">Zona</label>
+                              <select class="custom-select" id="zona" name="zona" required>
+                                <option selected disabled value="">-- Elegir Opcion --</option>
+                                <option value="SUR">NORTE</option>
+                                <option value="SUR">SUR</option>
+                                <option value="ESTE">ESTE</option>
+                                <option value="OESTE">OESTE</option>
+                              </select>
+                            </div>
+                            <!--
                             <div class="form-group col-md-2">
                                 <label for="latitud" class="title">{{ __('latitud') }}</label>
                                 <input id="latitud" type="text" class="form-control @error('latitud') is-invalid @enderror" name="latitud" value="{{ old('name') }}" autocomplete="latitud">
@@ -47,6 +58,7 @@
                                 </span>
                                 @enderror
                             </div>
+                        -->
                         </div>
 
                         <hr class="border-red">        
@@ -58,6 +70,10 @@
                             </div>
                         </div>
                     </form>
+
+                    <!-- MAPS 
+                    <div id="google_canvas" class="google_canvas"></div>
+                    -->
                 </div>
             </div>
         </div>
@@ -66,4 +82,6 @@
 @endsection
 @section('script')
     <script type="text/javascript" src="{{asset('js/consultas.js')}}"></script>
+    
+
 @endsection

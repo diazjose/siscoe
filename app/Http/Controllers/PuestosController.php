@@ -38,7 +38,7 @@ class PuestosController extends Controller
         if (!empty($request->input('longitud'))) {
         	$puesto->longitud = $request->input('longitud');	
         }
-    	
+    	$puesto->zona = strtoupper($request->input('zona'));
 		$puesto->save();
 
     	return redirect()->route('puesto.index')
@@ -82,11 +82,16 @@ class PuestosController extends Controller
                          ->with(['message' => 'Puesto actualizado correctamente', 'status' => 'success']);
     }
 
-     public function view($id){
-        $puesto = Puesto::find($id);
-        $personas = Trabajo::where('puesto_id',$id)->where('fecha', date('Y-m-d'))->orderBy('horaEntrada', 'ASC')->get();
-        //$lugares = Puesto::all();
+     public function view($id,$fecha=''){
+        if ($fecha!='') {
+            $puesto = Puesto::find($id);
+            $personas = Trabajo::where('puesto_id',$id)->where('fecha', $fecha)->orderBy('horaEntrada', 'ASC')->get();
+        }else{
+            $puesto = Puesto::find($id);
+            $personas = Trabajo::where('puesto_id',$id)->where('fecha', date('Y-m-d'))->orderBy('horaEntrada', 'ASC')->get();
+            $fecha = date('Y-m-d');
+        }
         
-        return view('puestos.view', ['puesto' => $puesto, 'personas' => $personas]);
+        return view('puestos.view', ['puesto' => $puesto, 'personas' => $personas, 'fecha' => $fecha]);
     }
 }

@@ -7,6 +7,7 @@
             <div class="card border-red">
                 <div class="card-header text-white title fondo-grey rounded"><h3>{{ __('Actualizar Puesto') }}</h3></div>
                 <input type="hidden" id="status" value="{{$puesto->estado}}">
+                <input type="hidden" id="zone" value="{{$puesto->zona}}">
                 <div class="card-body">
                     <form method="POST" action="{{ route('puesto.update') }}">
                         @csrf
@@ -29,9 +30,11 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
-                            </div>                            
+                            </div>   
                         </div>
+                        
                         <div class="row">
+                        <!--
                             <div class="form-group col-md-3">
                                 <label for="latitud" class="title">{{ __('latitud') }}</label>
                                 <input id="latitud" type="text" class="form-control @error('latitud') is-invalid @enderror" name="latitud" value="{{$puesto->latitud}}" autocomplete="latitud">
@@ -49,6 +52,16 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
+                            </div>-->
+                            <div class="col-md-3 mb-2">
+                              <label for="zona" class="title">Zona</label>
+                              <select class="custom-select" id="zona" name="zona" required>
+                                <option selected disabled value="">-- Elegir Opcion --</option>
+                                <option value="SUR">NORTE</option>
+                                <option value="SUR">SUR</option>
+                                <option value="ESTE">ESTE</option>
+                                <option value="OESTE">OESTE</option>
+                              </select>
                             </div>
                             <div class="col-md-3 mb-3">
                               <label for="estado" class="title">Estado</label>

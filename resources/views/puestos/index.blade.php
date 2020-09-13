@@ -21,9 +21,10 @@
                         <tr>
                             <th>Denominación</th>
                             <th>Dirección</th>
-                            <th>Estado</th>
+                            <th>Zona</th>
+                            <th>Estado</th><!--
                             <th>Latitud</th>
-                            <th>Longitud</th>
+                            <th>Longitud</th>-->
                             <th>Ver</th>
                         </tr>
                     </thead>
@@ -32,15 +33,17 @@
                         <tr>
                             <td>{{$pue->denominacion}}</td>
                             <td>{{$pue->direccion}}</td>
+                            <td>{{$pue->zona}}</td>
                             <td>
                                 @if($pue->estado == 1)
                                 <h5><span class="badge badge-success">Activo</span></h5>
                                 @else
                                 <h5><span class="badge badge-danger">DesAct.</span></h5>
                                 @endif
-                            </td>
+                            </td><!--
+                            <td>{{$pue->zona}}</td>
                             <td>{{$pue->latitud}}</td>
-                            <td>{{$pue->longitud}}</td>
+                            <td>{{$pue->longitud}}</td>-->
                             <td>
                                 <a href="{{route('puesto.view', [$pue->id])}}" class="btn btn-outline-primary" title="Ver Puesto" ><i class="far fa-eye"></i></a>
                             </td>
@@ -51,9 +54,10 @@
                         <tr>
                             <th>Denominación</th>
                             <th>Dirección</th>
-                            <th>Estado</th>
+                            <th>Zona</th>
+                            <th>Estado</th><!--
                             <th>Latitud</th>
-                            <th>Longitud</th>
+                            <th>Longitud</th>-->
                             <th>Ver</th>
                         </tr>
                     </tfoot>

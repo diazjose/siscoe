@@ -15,6 +15,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js" defer></script>
     <script src="{{asset('tables/jquery.dataTables.min.js')}}" defer></script>
     <script src="{{asset('tables/dataTables.bootstrap4.min.js')}}" defer></script>
+    
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsPND1hxm0AB7SsyOmPA1a_yJsDxnmJ3k"></script>
+    
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">

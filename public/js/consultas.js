@@ -29,6 +29,13 @@ window.addEventListener("load", function(){
 	    validDNI();
 	});
 
+	$("#fechaTarea").click(function(){
+		var fecha = $("#fecha").val();		
+		var	id = $("#puestId").val();
+		var url = 'http://localhost/SISCOE/public/puesto/ver/'+id+'/'+fecha;
+		$(location).attr('href',url);
+	});
+
 });
 
 function validDNI(){
@@ -55,6 +62,8 @@ function tarea(id,apellidos,nombre){
 	$("#horaEntrada").val('');
 	$("#horaSalida").val('');	
 	$('#tarea').val("");
+	$("#formTarea").attr("action",'');
+	$("#formTarea").attr("action",'http://localhost/SISCOE/public/personal/asignarTarea');
 	$("#Title").append('Agregar Tarea');
 	$("#persona_id").val(id);
 	$("#nombre").html('');
@@ -65,14 +74,18 @@ function tarea(id,apellidos,nombre){
 	
 }
 
-function editTarea(id,apellidos, nombre, lugar, horaE, horaS, tarea){
+function editTarea(idTarea,id,apellidos, nombre, lugar, horaE, horaS, tarea){
+	console.log(idTarea);
 	$("#Title").html('');
 	$("#boton").text('');
 	$("#persona_id").val('');
 	$("#horaEntrada").val('');
 	$("#horaSalida").val('');	
+	$("#formTarea").attr("action",'');
+	$("#formTarea").attr("action",'http://localhost/SISCOE/public/personal/editarTarea');
 	$("#Title").append('Actualizar Tarea');
 	$("#nombre").html('');
+	$("#tarea_id").val(idTarea);
 	$("#nombre").append(apellidos+' '+nombre);
 	$("#persona_id").val(id);
 	$('#lugar option[value="'+ lugar +'"]').attr("selected",true);
@@ -83,6 +96,12 @@ function editTarea(id,apellidos, nombre, lugar, horaE, horaS, tarea){
 	$("#boton").removeClass('btn-primary');
 	$("#boton").addClass('btn-success');
 	
+}
+
+function eliminarTarea(id,nombre){
+	$("#nombreTarea").text(nombre);
+	$("#tareaName").val(nombre);
+	$("#deleteTarea").val(id);
 }
       
                

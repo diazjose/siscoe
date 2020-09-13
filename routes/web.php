@@ -28,6 +28,8 @@ Route::get('/personal/actualizar/{id}', 'PersonalController@edit')->name('person
 Route::post('/personal/update', 'PersonalController@update')->name('personal.update');
 Route::post('/personal/vehiculo', 'PersonalController@vehiculo')->name('personal.vehiculo');
 Route::post('/personal/asignarTarea', 'PersonalController@asignarTarea')->name('personal.asignarTarea');
+Route::post('/personal/editarTarea', 'PersonalController@editTarea')->name('personal.editTarea');
+Route::post('/personal/eliminarTarea', 'PersonalController@destroyTarea')->name('personal.destroyTarea');
 
 /* USUARIOS */
 Route::get('/usuarios', 'UsuarioController@index')->name('usuario.index');
@@ -41,4 +43,4 @@ Route::get('/puesto/registrar', 'PuestosController@register')->name('puesto.regi
 Route::post('/puesto/register', 'PuestosController@create')->name('puesto.create');
 Route::get('/puesto/editar/{id}', 'PuestosController@edit')->name('puesto.edit');
 Route::post('/puesto/update', 'PuestosController@update')->name('puesto.update');
-Route::get('/puesto/ver/{id}', 'PuestosController@view')->name('puesto.view');
+Route::get('/puesto/ver/{id}/{fecha?}', 'PuestosController@view')->name('puesto.view');

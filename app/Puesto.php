@@ -9,7 +9,7 @@ class Puesto extends Model
     protected $table = 'puestos';
 
     protected $fillable = [
-        'denominacion', 'direccion', 'estado', 'latitud', 'longitud',
+        'denominacion', 'direccion', 'estado', 'latitud', 'longitud','zona',
     ];
     /*
     public function depende(){

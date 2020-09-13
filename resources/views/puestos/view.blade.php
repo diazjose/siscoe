@@ -12,31 +12,36 @@
             <strong>{{ session('message') }}</strong>   
         </div>  
         @endif 
+        <input type="hidden" name="" id="puestId" value="{{$puesto->id}}">
         <div class="mx-2">
             <div class="fondo-grey-c">
                 <h3 class="title my-3 mx-3 p-2">Datos Puesto</h3> 
                 <hr class="border-white p-2 mx-3">
                 <h5 class="mx-3"> 
                     <div class="row my-2">   
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-5">
                             <label for="nombre" class="title">{{ __('Denominacion') }}</label><br>
                             {{$puesto->denominacion}}      
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-5">
                             <label class="title">{{ __('Direccion') }}</label><br>
                             {{$puesto->direccion}}
                         </div>
+                        <div class="form-group col-md-2">
+                            <label class="title">{{ __('Zona') }}</label><br>
+                            {{$puesto->zona}}
+                        </div>
                     </div>    
                     <div class="row my-2">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-5">
                             <label for="nombre" class="title">{{ __('Latitud') }}</label><br>
                             {{$puesto->latitud}}     
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-5">
                             <label class="title">{{ __('Longitud') }}</label><br>
                             {{$puesto->longitud}}
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
                             <label for="nombre" class="title">{{ __('Estado') }}</label><br>
                             @if($puesto->estado == 1)
                             Activo
@@ -51,7 +56,22 @@
                 @endif
             </div>
             <hr class="border-red">
-            <h3 class="title my-3">Asistencia del Personal - {{date('d/m/Y H:i')}} {{date_default_timezone_get()}}</h3> 
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 class="title my-3">Asistencia del Personal - {{date('d/m/Y', strtotime($fecha))}} <!--{{date_default_timezone_get()}}--> </h3>
+                </div>
+                <div class="col-md-4 my-3"> 
+                    <form class="form-inline" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <input type="date" class="form-control" id="fecha" name="fecha">
+                        </div>
+                        <div class="form-group">
+                            <a href="#" id="fechaTarea" class="mx-md-2 btn btn-primary btn-md-block"><strong><i class="fas fa-search"></i> Buscar por Fecha</strong></a>
+                        </div>
+                    </form>
+                </div>
+            </div>    
             <hr class="border-red">
             @if(count($personas)>0)
                 <div class="table-responsive my-5 justify-content-center" id="resultado">

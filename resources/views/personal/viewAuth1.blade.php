@@ -124,9 +124,9 @@
                                 <th>Nombre</th>
                                 <th>Teléfono</th>
                                 <th>Domicilio</th>
-                                <th>Zona de Domicilio</th>
+                                <th>Zona</th>
                                 <th>Puesto</th>
-                                <th>Acciones</th>
+                                <th>Tarea</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -149,8 +149,8 @@
                                 </td>
                                 <td>
                                     @if($dep->persona->tarea)
-                                    <a href="#" class="btn btn-outline-primary disabled"  title="Agregar Tarea" ><i class="fas fa-clipboard-list"></i></a>
-                                    <a href="#" class="btn btn-outline-success" onclick="editTarea({{$dep->persona->id}},'{{$dep->persona->apellidos}}','{{$dep->persona->nombre}}','{{$dep->persona->tarea->lugar->id}}','{{$dep->persona->tarea->horaEntrada}}','{{$dep->persona->tarea->horaSalida}}','{{$dep->persona->tarea->tarea}}')" data-toggle="modal" data-target="#tareaModal" title="Editar Tarea" ><i class="far fa-edit"></i></a>
+                                    <a href="#" class="btn btn-outline-success" onclick="editTarea({{$dep->persona->tarea->id}},{{$dep->persona->id}},'{{$dep->persona->apellidos}}','{{$dep->persona->nombre}}','{{$dep->persona->tarea->lugar->id}}','{{$dep->persona->tarea->horaEntrada}}','{{$dep->persona->tarea->horaSalida}}','{{$dep->persona->tarea->tarea}}')" data-toggle="modal" data-target="#tareaModal" title="Editar Tarea" ><i class="far fa-edit"></i></a>
+                                    <a href="#" class="btn btn-outline-danger" onclick="eliminarTarea({{$dep->persona->tarea->id}}, '{{$dep->persona->apellidos}} {{$dep->persona->nombre}}')" data-toggle="modal" data-target="#confirm"  title="Eliminar Tarea" ><i class="far fa-trash-alt"></i></a>
                                     @else
                                     <a href="#" class="btn btn-outline-primary" onclick="tarea({{$dep->persona->id}},'{{$dep->persona->apellidos}}','{{$dep->persona->nombre}}')" data-toggle="modal" data-target="#tareaModal" title="Agregar Tarea" ><i class="fas fa-clipboard-list"></i></a>
                                     <a href="#" class="btn btn-outline-success disabled" title="Editar Tarea" ><i class="far fa-edit"></i></a>
@@ -261,8 +261,9 @@
         </button>
       </div>
       <div class="modal-body">
-            <form method="POST" action="{{route('personal.asignarTarea')}}">
+            <form method="POST" action="" id="formTarea">
                 @csrf
+                <input type="hidden" name="idTarea" id="tarea_id">
                 <input type="hidden" name="id" value="{{$auth->id}}">
                 <input type="hidden" name="persona_id" id="persona_id" value="">
                 <div class="form-group">
@@ -270,7 +271,7 @@
                     <p id="nombre"></p>
                 </div>
                 <div class="form-group">
-                    <label for="estado" class="title">Puesto</label>
+                    <label for="lugar" class="title">Puesto</label>
                     <select class="custom-select" id="lugar" name="lugar" required>
                         <option selected disabled value="">-- Elegir Puesto --</option>
                         @foreach($lugares as $lu)
@@ -301,6 +302,41 @@
                 </div>
             </form>        
       </div>      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="confirm">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel"><strong>¿Estas seguro de realizar esta accion?</strong></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#confirm-si">Si</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="confirm-si">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">¿Desea eliminar la tarea de <strong>"<span id="nombreTarea"></span>"</strong>?</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <form method="POST" action="{{route('personal.destroyTarea')}}">
+          @csrf
+          <input type="hidden" name="id" value="{{$auth->id}}">
+          <input type="hidden" name="idTarea" id="deleteTarea" value="">
+          <input type="hidden" name="name" id="tareaName" value="">
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger">Si</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+          </div>
+      </form>
     </div>
   </div>
 </div>

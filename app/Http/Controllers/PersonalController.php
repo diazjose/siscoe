@@ -210,6 +210,42 @@ class PersonalController extends Controller
         return redirect()->route('personal.viewAuth', [$request->input('id')])
                          ->with(['message' => 'Tarea asignada correctamente', 'status' => 'success']);   
     }
+
+    public function editTarea(Request $request){
+
+        $validate = $this->validate($request, [
+                'persona_id' => ['required', 'integer', 'max:255'],
+                'lugar' => ['required', 'integer', 'max:255'],
+                'horaEntrada' => ['required', 'string', 'max:255'],
+                'horaEntrada' => ['required', 'string', 'max:255'],
+                'tarea' => ['required', 'string', 'max:255'],
+            ]);
+
+        $tarea = Trabajo::find($request->input('idTarea'));
+        
+        $tarea->puesto_id = $request->input('lugar');
+        $tarea->horaEntrada = $request->input('horaEntrada');
+        $tarea->horaSalida = $request->input('horaSalida');
+        $tarea->tarea = $request->input('tarea');
+
+        $tarea->update();
+
+        return redirect()->route('personal.viewAuth', [$request->input('id')])
+                         ->with(['message' => 'Tarea actualizada correctamente', 'status' => 'success']);   
+    }
+
+    public function destroyTarea(Request $request){
+        
+        $u = $request->input('id');
+        $id = $request->input('idTarea');
+        $name = $request->input('name');
+        $trabajo = Trabajo::find($id);
+        $trabajo->delete();
+
+        return redirect()->route('personal.viewAuth', [$u])
+                         ->with(['message' => 'Se ha eliminado la tarea  de '.$name, 'status' => 'danger']);
+
+    }
 }
 
 
@@ -259,21 +295,6 @@ CONSTRAINT fk_dependiente_coordinador FOREIGN KEY(coordinador_id) REFERENCES per
 CONSTRAINT fk_dependiente_persona FOREIGN KEY(persona_id) REFERENCES personas(id)
 )ENGINE=InnoDB;
 
-create table trabajo(
-id int(255) auto_increment not null,
-persona_id int(255),
-puesto_id int(255),
-fecha date,
-horaEntrada time,
-horaSalida time,
-tarea varchar(255),
-created_at datetime,
-updated_at datetime,
-CONSTRAINT pk_trabajo PRIMARY KEY(id),
-CONSTRAINT fk_trabajo_persona FOREIGN KEY(persona_id) REFERENCES personas(id),
-CONSTRAINT fk_trabajo_puesto FOREIGN KEY(puesto_id) REFERENCES puestos(id)
-)ENGINE=InnoDB;
-
 create table vehiculos(
 id int(255) auto_increment not null,
 persona_id int(255),
@@ -294,10 +315,25 @@ direccion varchar(255),
 estado varchar(50),
 latitud varchar(100),
 longitud varchar(100),
+zona varchar(50),
 created_at datetime,
 updated_at datetime,
 CONSTRAINT pk_puestos PRIMARY KEY(id)
 )ENGINE=InnoDB;
 
+create table trabajo(
+id int(255) auto_increment not null,
+persona_id int(255),
+puesto_id int(255),
+fecha date,
+horaEntrada time,
+horaSalida time,
+tarea varchar(255),
+created_at datetime,
+updated_at datetime,
+CONSTRAINT pk_trabajo PRIMARY KEY(id),
+CONSTRAINT fk_trabajo_persona FOREIGN KEY(persona_id) REFERENCES personas(id),
+CONSTRAINT fk_trabajo_puesto FOREIGN KEY(puesto_id) REFERENCES puestos(id)
+)ENGINE=InnoDB;
 
 */
