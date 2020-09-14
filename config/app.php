@@ -67,7 +67,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    //'timezone' => 'UTC',
+    'timezone' => 'America/Argentina/La_Rioja',
 
     /*
     |--------------------------------------------------------------------------

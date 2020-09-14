@@ -58,7 +58,7 @@
             <hr class="border-red">
             <div class="row">
                 <div class="col-md-8">
-                    <h3 class="title my-3">Asistencia del Personal - {{date('d/m/Y', strtotime($fecha))}} <!--{{date_default_timezone_get()}}--> </h3>
+                    <h3 class="title my-3">Asistencia del Personal - {{date('d/m/Y', strtotime($fecha))}} <!--{{date('H:i')}} --></h3>
                 </div>
                 <div class="col-md-4 my-3"> 
                     <form class="form-inline" method="POST">
