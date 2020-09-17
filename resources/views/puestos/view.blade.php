@@ -12,31 +12,22 @@
             <strong>{{ session('message') }}</strong>   
         </div>  
         @endif 
+
         <div class="mx-2">
-            <div class="fondo-grey-c">
-                <h3 class="title my-3 mx-3 p-2">Datos Puesto</h3> 
-                <hr class="border-white p-2 mx-3">
-                <h5 class="mx-3"> 
-                    <div class="row my-2">   
-                        <div class="form-group col-md-6">
+            <div class="row">
+                <div class="fondo-grey-c col-md-4">
+                    <h3 class="title my-3 mx-3 p-2">Datos Puesto</h3> 
+                    <hr class="border-white p-2 mx-3">
+                    <h5 class="mx-3"> 
+                        <div class="form-group">
                             <label for="nombre" class="title">{{ __('Denominacion') }}</label><br>
                             {{$puesto->denominacion}}      
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group">
                             <label class="title">{{ __('Direccion') }}</label><br>
                             {{$puesto->direccion}}
                         </div>
-                    </div>    
-                    <div class="row my-2">
-                        <div class="form-group col-md-4">
-                            <label for="nombre" class="title">{{ __('Latitud') }}</label><br>
-                            {{$puesto->latitud}}     
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label class="title">{{ __('Longitud') }}</label><br>
-                            {{$puesto->longitud}}
-                        </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group">
                             <label for="nombre" class="title">{{ __('Estado') }}</label><br>
                             @if($puesto->estado == 1)
                             Activo
@@ -44,14 +35,22 @@
                             DesActivo
                             @endif     
                         </div>
-                    </div>       
-                </h5>
-                @if(Auth::user()->role == 'ADMIN')
-                <a href="{{route('puesto.edit', [$puesto->id])}}" class="btn btn-success btn-lg title"><i class="fas fa-id-card"></i> Editar Puesto</a>
-                @endif
+                    </h5>
+                    @if(Auth::user()->role == 'ADMIN')
+                    <a href="{{route('puesto.edit', [$puesto->id])}}" class="btn btn-success btn-lg title"><i class="fas fa-map-marker-alt"></i> Editar Puesto</a>
+                    @endif
+                </div>
+                <div class="col-md-8">
+                    <!--
+                    <div id="map" class="google_canvas" style="width: 100%; height: 100%;"></div>
+                    -->
+                    <div style="width: 100%; height: 100%;">
+                        {!! Mapper::render() !!}
+                    </div>
+                </div>
             </div>
             <hr class="border-red">
-            <h3 class="title my-3">Asistencia del Personal - {{date('d/m/Y H:i')}} {{date_default_timezone_get()}}</h3> 
+            <h3 class="title my-3">Asistencia del Personal - {{date('d/m/Y H:i')}} </h3> 
             <hr class="border-red">
             @if(count($personas)>0)
                 <div class="table-responsive my-5 justify-content-center" id="resultado">

@@ -90,7 +90,7 @@
         <main class="py-4">
             @yield('content')
         </main>
-        @yield('script')
     </div>
+    @yield('script')
 </body>
 </html>
