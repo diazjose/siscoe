@@ -40,12 +40,9 @@
                     @endif
                 </div>
                 <div class="col-md-8">
-                    <!--
-                    <div id="map" class="google_canvas" style="width: 100%; height: 100%;"></div>
-                    -->
-                    <div style="width: 100%; height: 100%;">
+                    <div class="google_canvas">
                         {!! Mapper::render() !!}
-                    </div>
+                    </div> 
                 </div>
             </div>
             <hr class="border-red">
