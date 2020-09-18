@@ -105,9 +105,40 @@ header {
 }
 
 .google_canvas{
-  height: 100vh;
-  width: 100vh;
+  width: 100%; 
+  height: 450px;
 }
+
+@media (max-width: 900px) {
+  /*#logo{
+    width: 300px;
+  }*/
+  h2 {
+    size: 1.0em;
+  }
+
+ .google_canvas{
+    width: 100%; 
+    height: 250px;
+  }
+
+}  
+
+@media (max-width: 768px) {
+  /*#logo{
+    width: 300px;
+  }*/
+  h2 {
+    size: 1.0em;
+  }
+
+ .google_canvas{
+    width: 100%; 
+    height: 250px;
+  }
+
+}  
+
 
 @media (max-width: 600px) {
   /*#logo{
@@ -115,6 +146,11 @@ header {
   }*/
   h2 {
     size: 1.0em;
+  }
+
+ .google_canvas{
+    width: 100%; 
+    height: 250px;
   }
 
 }  

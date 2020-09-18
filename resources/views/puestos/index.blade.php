@@ -5,16 +5,19 @@
     <div class="justify-content-center">
         <div class="text-center my-3">
             <h2 class="title display-3">Administrar Puestos</h2>
-        </div><br>
-        <a href="{{route('puesto.register')}}" class="btn btn-primary title"><i class="fas fa-map-marker-alt"></i> Agregar Puesto</a>
+        </div><hr class="border-red">
+        <div class="google_canvas">
+            {!! Mapper::render() !!}
+        </div> 
+        <a href="{{route('puesto.register')}}" class="btn btn-primary title my-3"><i class="fas fa-map-marker-alt"></i> Agregar Puesto</a>
         <br>
         <hr class="border-red">
             @if(session('message'))
             <div class="alert alert-{{ session('status') }}">
                 <strong>{{ session('message') }}</strong>   
             </div>  
-            @endif 
-             @if(count($puestos)>0)
+            @endif
+            @if(count($puestos)>0)
             <div class="table-responsive my-5 justify-content-center" id="resultado">
                 <table id="dataTable" class="table table-striped table-bordered" style="width:100%">
                     <thead>
@@ -22,9 +25,7 @@
                             <th>Denominación</th>
                             <th>Dirección</th>
                             <th>Zona</th>
-                            <th>Estado</th><!--
-                            <th>Latitud</th>
-                            <th>Longitud</th>-->
+                            <th>Estado</th>
                             <th>Ver</th>
                         </tr>
                     </thead>
@@ -40,10 +41,7 @@
                                 @else
                                 <h5><span class="badge badge-danger">DesAct.</span></h5>
                                 @endif
-                            </td><!--
-                            <td>{{$pue->zona}}</td>
-                            <td>{{$pue->latitud}}</td>
-                            <td>{{$pue->longitud}}</td>-->
+                            </td>
                             <td>
                                 <a href="{{route('puesto.view', [$pue->id])}}" class="btn btn-outline-primary" title="Ver Puesto" ><i class="far fa-eye"></i></a>
                             </td>
@@ -53,11 +51,8 @@
                     <tfoot>
                         <tr>
                             <th>Denominación</th>
-                            <th>Dirección</th>
-                            <th>Zona</th>
-                            <th>Estado</th><!--
-                            <th>Latitud</th>
-                            <th>Longitud</th>-->
+                            <th>Dirección</th><th>Zona</th>
+                            <th>Estado</th>
                             <th>Ver</th>
                         </tr>
                     </tfoot>

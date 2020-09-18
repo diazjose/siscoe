@@ -5,19 +5,54 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Puesto;
 use App\Trabajo;
+use Mapper;
 
 class PuestosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'admin']);
+    }
+
     public function index(){
     	$puestos = Puesto::orderBy('estado', 'ASC')->get();
-    	return view('puestos.index', ['puestos' => $puestos]);
+        Mapper::map(-29.423337, -66.865371, ['zoom' => 13, 'markers' => ['title' => 'Base Operativa', 'animation' => 'DROP']]);
+        //Recorremos los registros para generar las marcas
+        foreach ($puestos as $pu) {
+            if ($pu->latitud != null) {
+                Mapper::marker($pu->latitud, $pu->longitud,['title' => $pu->denominacion." - ".$pu->direccion]);
+            }
+        }
+        return view('puestos.index', ['puestos' => $puestos]);
     }
 
     public function register(){
-    	return view('puestos.register');
+    	//return view('puestos.register');
+        //$puestos = Puesto::where('estado',1)->get();
+        //var_dump($puestos);
+        //die();
+        
+        //Inicializamos el Api
+        //Mapper::map(-29.423337, -66.865371, ['zoom' => 13, 'markers' => ['title' => 'Base Operativa', 'animation' => 'DROP']]);
+        //Mapper::marker(-29.423337, -66.865371, ['draggable' => true]);
+        //Mapper::marker(-29.423337, -66.865371, ['draggable' => true, 'eventClick' => 'console.log("left click");']);
+        
+        //Recorremos los registros para generar las marcas
+        /*foreach ($puestos as $pu) {
+            //Mapper::circle([['latitude' => $pu->latitud, 'longitude' => $pu->longitud]],['title' => $pu->denominacion]);
+            Mapper::marker($pu->latitud, $pu->longitud,['title' => $pu->denominacion." - ".$pu->direccion]);
+        }*/
+
+        //Mostramos la vista
+        //return view('puestos.maps');
+        //Mapper::map(-29.423296, -66.865211, ['zoom' => 15,'draggable' => true]);
+        //Mapper::marker(-29.423296, -66.865211, ['draggable' => true, 'eventClick' => 'console.log("left click");']);
+       // Mapper::map(-29.441765, -66.874909, ['zoom' => 15, 'markers' => ['title' => 'My Location', 'animation' => 'DROP']]);-29.423337, -66.865371
+
+        return view('puestos.register');
     }
 
-     public function create(Request $request){
+    public function create(Request $request){
      	
     	$validate = $this->validate($request, [
                 'denominacion' => ['required', 'string', 'max:255', 'unique:puestos'],
@@ -31,6 +66,7 @@ class PuestosController extends Controller
         $puesto = new Puesto();
         $puesto->denominacion = strtoupper($request->input('denominacion'));
 		$puesto->direccion = strtoupper($request->input('direccion'));
+        $puesto->zona = $request->input('zona');
         $puesto->estado = 1;
         if (!empty($request->input('latitud'))) {
         	$puesto->latitud = $request->input('latitud');	
@@ -82,7 +118,7 @@ class PuestosController extends Controller
                          ->with(['message' => 'Puesto actualizado correctamente', 'status' => 'success']);
     }
 
-     public function view($id,$fecha=''){
+    public function view($id,$fecha=''){
         if ($fecha!='') {
             $puesto = Puesto::find($id);
             $personas = Trabajo::where('puesto_id',$id)->where('fecha', $fecha)->orderBy('horaEntrada', 'ASC')->get();
@@ -91,7 +127,7 @@ class PuestosController extends Controller
             $personas = Trabajo::where('puesto_id',$id)->where('fecha', date('Y-m-d'))->orderBy('horaEntrada', 'ASC')->get();
             $fecha = date('Y-m-d');
         }
-        
+
         return view('puestos.view', ['puesto' => $puesto, 'personas' => $personas, 'fecha' => $fecha]);
     }
 }
