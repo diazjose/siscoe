@@ -109,6 +109,11 @@ header {
   height: 450px;
 }
 
+.google_canvas_view{
+  width: 100%; 
+  height: 380px;
+}
+
 @media (max-width: 900px) {
   /*#logo{
     width: 300px;

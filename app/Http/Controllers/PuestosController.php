@@ -119,11 +119,17 @@ class PuestosController extends Controller
     }
 
     public function view($id,$fecha=''){
+        
+        $puesto = Puesto::find($id);
+        if ($puesto->latitud != null) {
+            Mapper::map($puesto->latitud, $puesto->longitud, ['zoom' => 15, 'markers' => ['title' => $puesto->denominacion.' - '.$puesto->direccion, 'animation' => 'DROP']]);
+        }else{
+            Mapper::map(-29.423337, -66.865371, ['zoom' => 13, 'markers' => ['title' => 'Base Operativa', 'animation' => 'DROP']]);        
+        }
+        
         if ($fecha!='') {
-            $puesto = Puesto::find($id);
             $personas = Trabajo::where('puesto_id',$id)->where('fecha', $fecha)->orderBy('horaEntrada', 'ASC')->get();
         }else{
-            $puesto = Puesto::find($id);
             $personas = Trabajo::where('puesto_id',$id)->where('fecha', date('Y-m-d'))->orderBy('horaEntrada', 'ASC')->get();
             $fecha = date('Y-m-d');
         }

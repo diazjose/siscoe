@@ -40,7 +40,7 @@
                     @endif
                 </div>
                 <div class="col-md-8">
-                    <div class="google_canvas">
+                    <div class="google_canvas_view">
                         {!! Mapper::render() !!}
                     </div> 
                 </div>
