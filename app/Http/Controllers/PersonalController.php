@@ -12,9 +12,9 @@ use App\Trabajo;
 
 class PersonalController extends Controller
 {
-     public function __construct()
+    public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     public function register(Request $request){
